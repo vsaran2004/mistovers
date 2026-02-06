@@ -154,7 +154,7 @@ export default function GalleryPage() {
 
             <div
               ref={customersCarousel.ref}
-              className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-5 no-scrollbar"
+              className="flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden pb-5 no-scrollbar"
             >
               {happyCustomers.map((img, idx) => (
                 <motion.div
