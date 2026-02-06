@@ -1,16 +1,8 @@
 "use client";
 
 import React from 'react';
-import { ChevronDown, MessageCircle, HelpCircle } from 'lucide-react';
-
-/**
- * FAQSection Component
- * Features:
- * - Native <details>/<summary> for accessibility
- * - Mobile-first layout (Stacks on mobile, 2-cols on desktop)
- * - Custom CSS transitions for the chevron rotation
- * - Premium misty-themed support card
- */
+import { motion } from 'framer-motion';
+import { Plus, Minus, Heart } from 'lucide-react';
 
 const FAQ_DATA = [
   {
@@ -41,89 +33,95 @@ const FAQ_DATA = [
 
 export default function FAQSection() {
   return (
-    <section className="py-16 md:py-24 bg-white px-6 font-sans overflow-hidden">
+    <section className="py-18 md:py-32 bg-white px-4 md:px-6 font-sans overflow-hidden">
       <div className="max-w-7xl mx-auto">
         
-        {/* Header */}
-        <div className="text-center md:text-left mb-12 md:mb-16">
-          <span className="text-[#FF8A3D] font-bold tracking-[0.2em] text-xs uppercase block mb-3">
-            FAQ
-          </span>
-          <h2 className="font-poppins text-3xl md:text-4xl font-semibold mb-4 text-[#0F3D2E]">
-            Frequently Asked Questions
-          </h2>
-          <p className="text-[#5B6675] max-w-2xl text-sm md:text-base">
-            Everything you need to know before booking your Kanthalloor trip. 
-            Can't find what you're looking for? Message us anytime.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+        <div className="flex flex-col lg:grid lg:grid-cols-12 gap-12 md:gap-16 lg:gap-24 items-start">
           
-          {/* FAQ List - Column 1 & 2 */}
-          <div className="lg:col-span-2 space-y-4">
-            {FAQ_DATA.map((faq, index) => (
-              <details 
-                key={index} 
-                className="group border border-[#E3EAE6] rounded-[20px] bg-white shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
-              >
-                <summary className="flex items-center justify-between p-5 md:p-6 cursor-pointer list-none outline-none focus:ring-2 focus:ring-[#FF8A3D]/20">
-                  <span className="font-semibold text-[#0B1220] pr-4 md:text-lg">
-                    {faq.question}
-                  </span>
-                  <ChevronDown 
-                    size={20} 
-                    className="text-[#5B6675] transition-transform duration-300 group-open:rotate-180 shrink-0" 
-                  />
-                </summary>
-                <div className="px-5 pb-6 md:px-6 md:pb-8 text-[#5B6675] leading-relaxed text-sm md:text-base border-t border-[#F3F7F5] pt-4">
-                  {faq.answer}
+          {/* Header Section: Centered on Mobile, Sticky on Desktop */}
+          <div className="lg:col-span-5 lg:sticky lg:top-32 w-full text-center lg:text-left">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="space-y-6 md:space-y-8"
+            >
+              <div>
+                <span className="text-blue-600 font-black tracking-[0.3em] text-[10px] uppercase block mb-3 md:mb-4">
+                  Essentials
+                </span>
+                <h2 className="text-3xl md:text-7xl font-black text-[#0F3D2E] tracking-tighter leading-tight mb-4 md:mb-6">
+                  Common <br className="hidden lg:block" /> 
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Queries.</span>
+                </h2>
+                <p className="text-[#5B6675] text-sm md:text-xl font-medium leading-relaxed max-w-md mx-auto lg:mx-0">
+                  Everything you need to know before stepping into the mist. We've simplified the details for your peace of mind.
+                </p>
+              </div>
+
+              {/* Thank You / Signature Section */}
+              <div className="pt-8 border-t border-gray-100 space-y-4 md:space-y-6">
+                <p className="text-blue-600 font-bold text-base md:text-2xl italic tracking-tight">
+                  Reserve your holiday with us
+                </p>
+                <div className="py-2">
+                  <svg viewBox="0 0 400 100" className="w-full max-w-[240px] md:max-w-[280px] mx-auto lg:mx-0 drop-shadow-sm">
+                    <defs>
+                      <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#2563eb" />
+                        <stop offset="100%" stopColor="#06b6d4" />
+                      </linearGradient>
+                    </defs>
+                    <text x="0" y="70" style={{ fontFamily: 'serif', fontStyle: 'italic', fontSize: '48px', fontWeight: 'bold', fill: 'url(#textGrad)' }}>
+                      Happy Journey
+                    </text>
+                    <path d="M10 85 Q 150 105, 380 75" stroke="url(#textGrad)" strokeWidth="3" fill="none" strokeLinecap="round" />
+                  </svg>
                 </div>
-              </details>
-            ))}
+                <div className="flex items-center justify-center lg:justify-start gap-2 text-[#5B6675] font-bold text-[9px] md:text-[10px] uppercase tracking-[0.2em]">
+                  <Heart size={12} className="text-blue-500 fill-blue-500 md:size-[14px]" />
+                  <span>See you in the hills soon</span>
+                </div>
+              </div>
+            </motion.div>
           </div>
 
-          {/* Support Card - Column 3 */}
-          <aside className="lg:sticky lg:top-24">
-            <div className="bg-[#F3F7F5] p-8 rounded-[24px] border border-[#E3EAE6] relative overflow-hidden group">
-              {/* Decorative Glow */}
-              <div className="absolute -top-12 -right-12 w-24 h-24 bg-[#FF8A3D]/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700" />
-              
-              <div className="relative z-10">
-                <div className="bg-white w-12 h-12 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
-                  <HelpCircle className="text-[#0F3D2E]" size={24} />
-                </div>
-                <h3 className="font-poppins text-xl font-bold text-[#0F3D2E] mb-3">
-                  Need help choosing a package?
-                </h3>
-                <p className="text-[#5B6675] text-sm mb-8 leading-relaxed">
-                  Our local experts are ready to suggest the best plan for your group. Get a custom itinerary in minutes!
-                </p>
-                
-                <a 
-                  href="https://wa.me/919999999999?text=Hi%20Kanthalloor%20Mistovers%2C%20I%20need%20help%20choosing%20a%20package."
-                  className="flex items-center justify-center gap-3 w-full bg-[#0F3D2E] text-white py-4 rounded-xl font-bold hover:bg-[#1a5240] transition-all shadow-lg active:scale-95 outline-none focus:ring-4 focus:ring-[#0F3D2E]/20"
+          {/* FAQ Accordion: Full Width on Mobile */}
+          <div className="lg:col-span-7 w-full">
+            <div className="space-y-1 md:space-y-2">
+              {FAQ_DATA.map((faq, index) => (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.05 }}
+                  key={index}
                 >
-                  <MessageCircle size={18} />
-                  WhatsApp Enquiry
-                </a>
-              </div>
+                  <details className="group border-b border-gray-100 bg-white transition-all duration-300">
+                    <summary className="flex items-center justify-between py-5 md:py-8 cursor-pointer list-none outline-none">
+                      <span className="font-bold text-[#0F3D2E] pr-6 text-sm md:text-2xl tracking-tight transition-colors group-hover:text-blue-600 leading-tight">
+                        {faq.question}
+                      </span>
+                      <div className="relative w-5 h-5 md:w-6 md:h-6 flex items-center justify-center shrink-0">
+                        <Plus size={18} className="absolute transition-transform duration-500 group-open:rotate-90 group-open:opacity-0 text-blue-600 md:size-[20px]" />
+                        <Minus size={18} className="absolute transition-transform duration-500 rotate-[-90deg] opacity-0 group-open:rotate-0 group-open:opacity-100 text-blue-600 md:size-[20px]" />
+                      </div>
+                    </summary>
+                    <div className="pb-6 md:pb-10 text-[#5B6675] leading-relaxed text-xs md:text-lg font-medium animate-in fade-in slide-in-from-top-2 duration-500 px-1">
+                      {faq.answer}
+                    </div>
+                  </details>
+                </motion.div>
+              ))}
             </div>
-            
-            {/* Quick Mobile Support Tag */}
-            <p className="text-center mt-6 text-[#5B6675] text-xs">
-              Response time: <span className="text-[#0F3D2E] font-bold">~5 mins</span>
-            </p>
-          </aside>
+          </div>
 
         </div>
       </div>
 
-      {/* Custom Styles for Safari/Firefox details marker removal */}
       <style jsx>{`
-        summary::-webkit-details-marker {
-          display: none;
-        }
+        summary::-webkit-details-marker { display: none; }
+        details { overflow: hidden; }
       `}</style>
     </section>
   );
