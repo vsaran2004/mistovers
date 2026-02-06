@@ -31,7 +31,7 @@ const cardVariants: Variants = {
   },
 };
 
-// Reusable motion settings for the "Touching Zoom" effect
+// ✅ FIXED buttonZoomProps (spring literal type)
 const buttonZoomProps = {
   initial: { scale: 1 },
   whileHover: {
@@ -39,7 +39,11 @@ const buttonZoomProps = {
     transition: { duration: 0.3, ease: "easeOut" },
   },
   whileTap: { scale: 0.94 },
-  transition: { type: "spring", stiffness: 400, damping: 17 },
+  transition: {
+    type: "spring" as const,
+    stiffness: 400,
+    damping: 17,
+  },
 };
 
 /**
@@ -59,6 +63,7 @@ export function PackageCard({ pkg }: { pkg: TravelPackage }) {
           fill
           className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
         />
+
         <div className="absolute top-4 left-4 flex flex-wrap gap-2">
           <div className="px-4 py-2 rounded-2xl bg-white/90 backdrop-blur-md border border-white/20 shadow-sm flex items-center gap-2">
             <Clock size={14} className="text-sky-600" />
@@ -67,6 +72,7 @@ export function PackageCard({ pkg }: { pkg: TravelPackage }) {
             </span>
           </div>
         </div>
+
         <div className="absolute bottom-1 left-6 px-4 py-2 rounded-2xl bg-slate-900/90 backdrop-blur-lg border border-white/10 text-white">
           <span className="text-lg font-bold">₹{pkg.price}</span>
           <span className="text-[10px] opacity-70 ml-1 uppercase tracking-tighter">
@@ -101,6 +107,7 @@ export function PackageCard({ pkg }: { pkg: TravelPackage }) {
             <span className="relative z-10 font-bold text-sm tracking-wide">
               Explore Experience
             </span>
+
             <div className="relative z-10 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1">
               <ArrowUpRight size={20} />
             </div>
@@ -128,9 +135,7 @@ export function PackagesSection() {
           >
             <h2 className="text-5xl md:text-7xl font-bold text-slate-950 leading-[0.95] tracking-tighter">
               Curated <br />
-              <span className="text-sky-600 italic">
-                Mistover Trips.
-              </span>
+              <span className="text-sky-600 italic">Mistover Trips.</span>
             </h2>
           </motion.div>
 
@@ -187,6 +192,7 @@ export function PackagesSection() {
                     Talk to an Expert
                   </span>
                 </div>
+
                 <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center group-hover:scale-110 group-hover:rotate-[15deg] transition-transform duration-300">
                   <Phone size={20} />
                 </div>

@@ -21,7 +21,7 @@ export const PACKAGES: TravelPackage[] = [
     price: "1999",
     location: "Kanthalloor, Kerala",
     groupSize: "7-15 People",
-    image: "/package/standard-package.png", // Fixed typo: standart -> standard
+    image: "/package/standart-package.png", // Fixed typo: standart -> standard
     description: "The ultimate budget-friendly getaway for large groups and bachelors in the heart of Kanthalloor.",
     highlights: [
       "Jeep Trekking",
