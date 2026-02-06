@@ -1,3 +1,17 @@
+export interface TravelPackage {
+  id: string;
+  slug: string;
+  title: string;
+  duration: string;
+  price: string;
+  location: string;
+  groupSize: string;
+  image: string;
+  description: string;
+  highlights: string[];
+  inclusions: string[];
+}
+
 export const PACKAGES: TravelPackage[] = [
   {
     id: "1",
@@ -7,7 +21,7 @@ export const PACKAGES: TravelPackage[] = [
     price: "1999",
     location: "Kanthalloor, Kerala",
     groupSize: "7-15 People",
-    image: "/package/standart-package.png",
+    image: "/package/standard-package.png", // Fixed typo: standart -> standard
     description: "The ultimate budget-friendly getaway for large groups and bachelors in the heart of Kanthalloor.",
     highlights: [
       "Jeep Trekking",
@@ -17,19 +31,19 @@ export const PACKAGES: TravelPackage[] = [
       "Private Stay"
     ],
     inclusions: [
-      "4x4 off-road jeep ride through mountain trails and farms.",
-      "Private campfire setup with music under the stars.",
-      "Freshly cooked local meals using organic ingredients.",
-      "Visit waterfalls, viewpoints, and local farms.",
-      "Exclusive stay space ensuring privacy for your group.",
+      "4x4 off-road jeep ride through mountain trails",
+      "Private campfire setup with music",
+      "Freshly cooked local organic meals",
+      "Visit to waterfalls and local farms",
+      "Exclusive stay space for group privacy",
       "Check-In: 12:00 PM | Check-Out: 11:00 AM",
-      "Important Note: Exclusive for bachelor groups who want privacy and adventure."
+      "Note: Exclusive for bachelor/large groups"
     ]
   },
   {
     id: "2",
     slug: "kanthalloor-adventure-explorer",
-    title: "Kanthalloor Adventure Explorer",
+    title: "Adventure Explorer",
     duration: "2N/3D",
     price: "4999",
     location: "Kanthalloor, Kerala",
@@ -39,18 +53,18 @@ export const PACKAGES: TravelPackage[] = [
     highlights: [
       "Deep Forest Jeep Safari",
       "Night Trekking",
-      "Orange & Apple Orchard Visit",
+      "Orchard Visits",
       "Riverside Camping",
       "Traditional BBQ Night"
     ],
     inclusions: [
-      "2 Nights stay in premium tents or mountain cottages.",
-      "Extended 4x4 safari to deep forest watchtowers.",
-      "All meals (6 total) featuring local Kanthalloor cuisine.",
-      "Guided trekking to the secret 'Lemon Grass' hills.",
-      "Visit to organic fruit orchards and sandalwood forests.",
+      "2 Nights stay in premium tents/cottages",
+      "Extended 4x4 safari to watchtowers",
+      "6 Local Kanthalloor style meals",
+      "Guided trekking to Lemon Grass hills",
+      "Guided fruit orchard & sandalwood tour",
       "Check-In: 12:00 PM | Check-Out: 11:00 AM",
-      "Note: Best suited for adventure enthusiasts and nature lovers."
+      "Note: Best suited for nature lovers"
     ]
   },
   {
@@ -71,13 +85,13 @@ export const PACKAGES: TravelPackage[] = [
       "Personalized Jeep Tour"
     ],
     inclusions: [
-      "Stay in a secluded wooden cabin with valley views.",
-      "Romantic candlelight dinner setup with music.",
-      "Traditional Kerala breakfast served in-room.",
-      "Private fruit orchard tour and strawberry farm visit.",
-      "Personal jeep for local sightseeing (Privacy guaranteed).",
+      "Stay in secluded wooden valley-view cabin",
+      "Romantic candlelight dinner with music",
+      "In-room traditional Kerala breakfast",
+      "Private strawberry farm tour",
+      "Personal jeep for local sightseeing",
       "Check-In: 12:00 PM | Check-Out: 11:00 AM",
-      "Note: Perfect for honeymooners or quiet weekend getaways."
+      "Note: Perfect for honeymooners"
     ]
   }
 ];

@@ -5,7 +5,7 @@ export const siteConfig = {
   contact: {
     whatsappNumber: "918547331180",
     whatsappLink: "https://wa.me/918547331180",
-    email: "info@mistover.com",
+    email: "info@mistoverskanthalloor.com",
   },
 
   // Hero Section
@@ -19,8 +19,8 @@ export const siteConfig = {
   // Social Media Links
   social: {
     whatsapp: "https://wa.me/918547331180",
-    instagram: "https://instagram.com/mistover",
-    facebook: "https://facebook.com/mistover",
+    instagram: "https://instagram.com/kanthalloor_mistovers",
+    facebook: "https://instagram.com/kanthalloor_mistovers",
   },
 
   // Location Details
@@ -34,7 +34,7 @@ export const siteConfig = {
 
   // Company Info
   company: {
-    name: "Mistover",
+    name: "Mistovers",
     tagline: "Discover the Hidden Beauty of Kanthalloor",
     description: "Experience authentic travel packages to Kanthalloor with guided tours, adventure activities, and local experiences.",
   },
