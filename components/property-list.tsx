@@ -1,164 +1,102 @@
 "use client";
 
-import React, { useRef } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { ChevronRight, ArrowRight } from 'lucide-react';
+import { MapPin } from 'lucide-react';
+import { RESORTS, type Property } from '@/data/property-data';
 
-// --- Types & Sample Data ---
-interface Resort {
-  id: number;
-  name: string;
-  slug: string;
-  image: string;
-}
-
-const RESORTS: Resort[] = [
-  {
-    id: 1,
-    name: "Misty Valley Resort",
-    slug: "misty-valley-resort",
-    image: "/logo.jpeg"
-  },
-  {
-    id: 2,
-    name: "Hill Breeze Stay",
-    slug: "hill-breeze-stay",
-    image: "/logo.jpeg"
-  },
-  {
-    id: 3,
-    name: "Green Farm Retreat",
-    slug: "green-farm-retreat",
-    image: "/logo.jpeg"
-  },
-  {
-    id: 4,
-    name: "Cloud View Homestay",
-    slug: "cloud-view-homestay",
-    image: "/logo.jpeg"
-  },
-];
-
-export default function ResortCarousel() {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  const scrollNext = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-    }
-  };
-
-  const scrollPrev = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
-    }
-  };
-
+export default function ResortGrid() {
   return (
-    <section className="py-16 bg-[#F3F7F5]/30 overflow-hidden font-sans">
+    <section className="py-8 bg-white font-sans overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         
-        {/* --- SECTION HEADER --- */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
-          <div className="text-left">
-            <span className="text-[#FF8A3D] font-bold tracking-[0.2em] text-xs uppercase block mb-3">
-              Stay Options
-            </span>
-            <h2 className="font-poppins text-3xl md:text-4xl font-semibold text-[#0B1220] mb-3">
-              Handpicked Resorts in Kanthalloor
-            </h2>
-            <p className="text-[#5B6675] text-sm md:text-base max-w-lg">
-              Comfortable and scenic stays selected by our local team for an authentic experience.
-            </p>
+        {/* --- HEADER --- */}
+        <div className="mb-12">
+          <div className="space-y-4 text-center md:text-left">
+            <div className="flex items-center justify-center md:justify-start gap-2">
+              <span className="w-8 h-[2px] bg-[#FF8A3D]" />
+              <span className="text-[#FF8A3D] font-black text-[10px] uppercase tracking-[0.3em]">
+                Stay Options
+              </span>
+            </div>
+            
+            <div className="space-y-4">
+              <h2 className="text-3xl md:text-5xl font-bold text-[#0F172A] tracking-tighter">
+                Handpicked Stays
+              </h2>
+              <p className="text-slate-500 text-m md:text-base max-w-2xl leading-relaxed mx-auto md:mx-0">
+                Escape the ordinary with our exclusive collection of retreats. 
+              </p>
+            </div>
           </div>
-
-          <Link 
-            href="/stays" 
-            className="hidden md:flex items-center gap-2 text-[#0F3D2E] font-bold hover:gap-3 transition-all duration-300"
-          >
-            View All Stays <ArrowRight size={18} />
-          </Link>
         </div>
 
-        {/* --- CAROUSEL WRAPPER --- */}
-        <div className="relative group">
+        {/* --- COMPACT BENTO GRID --- */}
+        <div className="flex md:grid md:grid-cols-12 gap-5 overflow-x-auto no-scrollbar -mx-6 px-6 md:mx-0 md:px-0">
           
-          {/* Scroll Container */}
-          <div 
-            ref={scrollContainerRef}
-            className="flex gap-4 md:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4 -mx-6 px-6 md:mx-0 md:px-0"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {RESORTS.map((resort) => (
-              <Link 
-                key={resort.id}
-                href={`/stays/${resort.slug}`}
-                className="min-w-[75%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[22%] snap-start group/card relative aspect-[4/5] rounded-[24px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-500"
-              >
-                {/* Resort Image */}
-                <Image
-                  src={resort.image}
-                  alt={resort.name}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover/card:scale-110"
-                />
-
-                {/* Bottom Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/90 via-[#0B1220]/20 to-transparent opacity-80" />
-
-                {/* Resort Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="font-poppins font-semibold text-lg md:text-xl text-white leading-tight">
-                    {resort.name}
-                  </h3>
-                  
-                  <div className="mt-2 flex items-center gap-1 text-white/0 group-hover/card:text-white/100 -translate-y-2 group-hover/card:translate-y-0 transition-all duration-300 text-xs font-bold uppercase tracking-widest">
-                    <span>Explore</span>
-                    <ChevronRight size={14} />
-                  </div>
-                </div>
-              </Link>
-            ))}
+          <div className="min-w-[85%] md:min-w-0 md:col-span-7 lg:col-span-8">
+            <ResortCard resort={RESORTS[0]} isLarge />
           </div>
 
-          {/* Desktop Navigation Buttons */}
-          <div className="hidden lg:block">
-             <button 
-              onClick={scrollPrev}
-              className="absolute -left-5 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-[#0F3D2E] opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[#0F3D2E] hover:text-white z-10"
-              aria-label="Previous stays"
-            >
-              <ChevronRight size={24} className="rotate-180" />
-            </button>
-            <button 
-              onClick={scrollNext}
-              className="absolute -right-5 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-[#0F3D2E] opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[#0F3D2E] hover:text-white z-10"
-              aria-label="Next stays"
-            >
-              <ChevronRight size={24} />
-            </button>
+          <div className="min-w-[85%] md:min-w-0 md:col-span-5 lg:col-span-4">
+            <ResortCard resort={RESORTS[1]} />
           </div>
 
-          {/* Subtle Side Fades (Visual Premium Polish) */}
-          <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[#F3F7F5]/30 to-transparent pointer-events-none md:hidden" />
-          <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#F3F7F5]/30 to-transparent pointer-events-none md:hidden" />
+          <div className="min-w-[85%] md:min-w-0 md:col-span-5 lg:col-span-4">
+            <ResortCard resort={RESORTS[2]} />
+          </div>
+
+          <div className="min-w-[85%] md:min-w-0 md:col-span-7 lg:col-span-8">
+            <ResortCard resort={RESORTS[3]} />
+          </div>
+
         </div>
-
-        {/* Mobile View All Link */}
-        <Link 
-          href="/stays" 
-          className="mt-8 flex md:hidden items-center justify-center gap-2 text-[#0F3D2E] font-bold text-sm bg-white py-4 rounded-xl shadow-sm active:scale-95 transition-all"
-        >
-          View All Stays <ArrowRight size={16} />
-        </Link>
       </div>
 
-      <style jsx>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
+      <style jsx global>{`
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
     </section>
+  );
+}
+
+function ResortCard({ resort, isLarge }: { resort: Property; isLarge?: boolean }) {
+  return (
+    <div 
+      className={`group relative w-full rounded-[32px] overflow-hidden bg-slate-100
+        ${isLarge ? 'h-[350px] md:h-[450px]' : 'h-[350px] md:h-[280px]'}
+      `}
+    >
+      {/* Property Image */}
+      <Image
+        src={resort.image}
+        alt={resort.name}
+        fill
+        className="object-cover transition-transform duration-700 group-hover:scale-105"
+      />
+      
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/80 via-transparent to-transparent opacity-90" />
+
+      {/* Content Area */}
+      <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+        <div className="flex flex-col gap-1">
+          
+          <div className="flex items-center gap-1.5 text-white/70 text-[9px] font-bold uppercase tracking-widest mb-1">
+            <MapPin size={10} className="text-[#FF8A3D]" />
+            {resort.location}
+          </div>
+
+          <h3 className={`font-bold text-white leading-tight ${isLarge ? 'text-xl md:text-2xl' : 'text-lg md:text-xl'}`}>
+            {resort.name}
+          </h3>
+          
+          <span className="text-[9px] text-white/40 uppercase font-black tracking-widest">
+            {resort.category}
+          </span>
+        </div>
+      </div>
+    </div>
   );
 }

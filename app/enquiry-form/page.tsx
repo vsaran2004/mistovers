@@ -1,56 +1,25 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowLeft, Send } from "lucide-react";
+import { siteConfig } from "@/data/basic-data";
 
-type DurationOption =
-  | "1 Night / 2 Days"
-  | "2 Nights / 3 Days"
-  | "3 Nights / 4 Days"
-  | "Custom";
-
-type TravelTypeOption =
-  | "Bachelor"
-  | "Family"
-  | "Couple"
-  | "Solo"
-  | "School trip"
-  | "College trip";
-
-type PropertyTypeOption =
-  | "Mud House"
-  | "Villa / Hut"
-  | "Resort / Homestay"
-  | "A Frame"
-  | "Tent / Camping";
+type DurationOption = "1 Night / 2 Days" | "2 Nights / 3 Days" | "3 Nights / 4 Days" | "Custom";
+type TravelTypeOption = "Bachelor" | "Family" | "Couple" | "Solo" | "School/College trip";
+type PropertyTypeOption = "Mud House" | "Villa / Hut" | "Resort / Homestay" | "A Frame" | "Tent / Camping";
 
 function isValidIndianWhatsapp(num: string) {
-  // Accepts: 10-digit, or +91xxxxxxxxxx, or 91xxxxxxxxxx (spaces/dashes ok)
   const cleaned = num.replace(/[^\d+]/g, "");
-  if (/^\+91\d{10}$/.test(cleaned)) return true;
-  if (/^91\d{10}$/.test(cleaned)) return true;
-  if (/^\d{10}$/.test(cleaned)) return true;
-  return false;
-}
-
-function normalizeToWaMeNumber(num: string) {
-  // wa.me needs country code without "+" ideally. We'll output: 91xxxxxxxxxx
-  const digits = num.replace(/\D/g, ""); // only digits
-  if (digits.length === 10) return `91${digits}`;
-  if (digits.length === 12 && digits.startsWith("91")) return digits;
-  // fallback: return digits as-is
-  return digits;
+  return /^\+91\d{10}$/.test(cleaned) || /^91\d{10}$/.test(cleaned) || /^\d{10}$/.test(cleaned);
 }
 
 function formatDateHuman(iso: string) {
   if (!iso) return "";
-  // ISO yyyy-mm-dd -> dd Mon yyyy
   const d = new Date(iso + "T00:00:00");
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString("en-IN", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
+  return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 }
 
 export default function TripEnquiryForm() {
@@ -58,44 +27,23 @@ export default function TripEnquiryForm() {
   const [fullName, setFullName] = useState("");
   const [whatsAppNumber, setWhatsAppNumber] = useState("");
   const [checkInDate, setCheckInDate] = useState("");
+  const [checkOutDate, setCheckOutDate] = useState("");
   const [travelType, setTravelType] = useState<TravelTypeOption>("Family");
-  const [adults, setAdults] = useState(""); // exact or range
-  const [children, setChildren] = useState(""); // exact or range
-  const [propertyType, setPropertyType] =
-    useState<PropertyTypeOption>("Resort / Homestay");
-  const [poolRequest, setPoolRequest] = useState<"Yes" | "No" | "Not required">(
-    "Not required"
-  );
+  const [adults, setAdults] = useState("");
+  const [children, setChildren] = useState("");
+  const [propertyType, setPropertyType] = useState<PropertyTypeOption>("Resort / Homestay");
+  const [poolRequest, setPoolRequest] = useState<"Yes" | "No" | "Not required">("Not required");
   const [specialRequirements, setSpecialRequirements] = useState("");
-
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   const errors = useMemo(() => {
     const e: Record<string, string> = {};
-
-    if (!fullName.trim()) e.fullName = "Please enter your full name.";
-    if (!whatsAppNumber.trim())
-      e.whatsAppNumber = "Please enter your WhatsApp number.";
-    else if (!isValidIndianWhatsapp(whatsAppNumber))
-      e.whatsAppNumber = "Enter a valid number (10 digits or +91XXXXXXXXXX).";
-
-    if (!checkInDate) e.checkInDate = "Please select a check-in date.";
-
-    // Adults/Children: allow blank, but recommend at least adults
-    const rangeOk = (v: string) =>
-      /^\d+$/.test(v.trim()) || /^\d+\s*-\s*\d+$/.test(v.trim());
-
-    if (adults.trim() && !rangeOk(adults))
-      e.adults = "Enter exact (e.g., 8) or range (e.g., 3-4).";
-    if (children.trim() && !rangeOk(children))
-      e.children = "Enter exact (e.g., 2) or range (e.g., 1-2).";
-
-    // Optional: If both empty, nudge user
-    if (!adults.trim() && !children.trim())
-      e.pax = "Please enter adults or children count (exact or range).";
-
+    if (!fullName.trim()) e.fullName = "Name is required";
+    if (!whatsAppNumber.trim()) e.whatsAppNumber = "Number is required";
+    else if (!isValidIndianWhatsapp(whatsAppNumber)) e.whatsAppNumber = "Enter a valid number";
+    if (!checkInDate) e.checkInDate = "Select date";
     return e;
-  }, [fullName, whatsAppNumber, checkInDate, adults, children]);
+  }, [fullName, whatsAppNumber, checkInDate]);
 
   const hasErrors = Object.keys(errors).length > 0;
 
@@ -103,283 +51,126 @@ export default function TripEnquiryForm() {
     setTouched((t) => ({ ...t, [field]: true }));
   }
 
-  function buildMessage() {
-    const lines: string[] = [];
-    lines.push("Hi Kanthalloor Mistovers 👋");
-    lines.push("I want to enquire about a trip package.");
-    lines.push("");
-    lines.push(`• Duration: ${duration}`);
-    lines.push(`• Full Name: ${fullName.trim()}`);
-    lines.push(`• WhatsApp: ${whatsAppNumber.trim()}`);
-    lines.push(`• Check-in Date: ${formatDateHuman(checkInDate)}`);
-    lines.push(`• Travel Type: ${travelType}`);
-    lines.push(`• Adults (6y+): ${adults.trim() || "-"}`);
-    lines.push(`• Children: ${children.trim() || "-"}`);
-    lines.push(`• Property Type Preference: ${propertyType}`);
-    lines.push(`• Pool Request: ${poolRequest}`);
-    lines.push(
-      `• Special Requirements: ${specialRequirements.trim() || "-"}`
-    );
-    lines.push("");
-    lines.push("Please share best available options & pricing. धन्यवाद 🙏");
-    return lines.join("\n");
-  }
-
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setTouched({
-      duration: true,
-      fullName: true,
-      whatsAppNumber: true,
-      checkInDate: true,
-      travelType: true,
-      adults: true,
-      children: true,
-      propertyType: true,
-      poolRequest: true,
-      specialRequirements: true,
-      pax: true,
-    });
-
+    setTouched({ fullName: true, whatsAppNumber: true, checkInDate: true });
     if (hasErrors) return;
 
-    const waTo = "919999999999"; // ✅ change to your business WhatsApp number
-    const message = encodeURIComponent(buildMessage());
-    const url = `https://wa.me/${waTo}?text=${message}`;
-    window.open(url, "_blank", "noopener,noreferrer");
+    const message = encodeURIComponent(
+      `Hi ${siteConfig.company.name} 👋\n` +
+      `I want to enquire about a trip.\n\n` +
+      `• Name: ${fullName}\n` +
+      `• WhatsApp: ${whatsAppNumber}\n` +
+      `• Check-in: ${formatDateHuman(checkInDate)}\n` +
+      `• Check-out: ${formatDateHuman(checkOutDate) || "Not specified"}\n` +
+      `• Duration: ${duration}\n` +
+      `• Type: ${travelType}\n` +
+      `• Pax: ${adults} Adults, ${children || 0} Kids\n` +
+      `• Property: ${propertyType}\n` +
+      `• Pool: ${poolRequest}\n` +
+      `• Notes: ${specialRequirements || "None"}`
+    );
+    
+    // Using api.whatsapp.com with the number from basic-data.js
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${siteConfig.contact.whatsappNumber}&text=${message}`;
+    window.open(whatsappUrl, "_blank");
   }
 
-  const inputBase =
-    "w-full rounded-xl border border-[#E3EAE6] bg-white px-4 py-3 font-[Inter] text-sm text-[#0B1220] shadow-sm outline-none transition focus:border-[#FF8A3D]/60 focus:ring-2 focus:ring-[#FF8A3D]/25";
-
-  const labelBase =
-    "mb-2 block font-[Inter] text-sm font-medium text-[#0B1220]";
-
-  const helpBase = "mt-1 font-[Inter] text-xs text-[#5B6675]";
-
-  const errorText = (key: string) =>
-    touched[key] && errors[key] ? (
-      <p className="mt-1 font-[Inter] text-xs text-red-600">{errors[key]}</p>
-    ) : null;
+  const inputClasses = (key: string) => `
+    w-full rounded-2xl border bg-slate-50 px-4 py-3.5 text-sm transition-all outline-none text-black font-medium
+    ${touched[key] && errors[key] ? 'border-red-400 bg-red-50' : 'border-slate-200 focus:border-[#22C55E] focus:bg-white'}
+  `;
 
   return (
-    <section className="bg-[#F3F7F5] py-10">
-      <div className="mx-auto max-w-3xl px-4">
-        <div className="rounded-2xl border border-[#E3EAE6] bg-white p-5 shadow-sm sm:p-7">
-          <div className="mb-6">
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#5B6675]">
-              Trip Enquiry
-            </p>
-            <h2 className="mt-2 font-[Poppins] text-2xl font-semibold text-[#0B1220]">
-              Customize Your Kanthalloor Trip
-            </h2>
-            <p className="mt-2 font-[Inter] text-sm text-[#5B6675]">
-              1) Above 6 years is considered as adult. <br />
-              2) Enter exact number (e.g. 8, 12) or range (e.g. 3-4).
-            </p>
+    <main className="min-h-screen bg-[#F8FAFC] pb-20 pt-6">
+      <div className="mx-auto max-w-2xl px-4">
+        <div className="mb-8 flex flex-col items-center">
+          <Link href="/" className="mb-6 flex items-center gap-2 text-sm font-bold text-black hover:opacity-70 transition-colors uppercase tracking-widest">
+            <ArrowLeft size={14} /> Back to Home
+          </Link>
+          <div className="relative mb-6 h-20 w-20">
+            <Image src="/logo-mistovers.png" alt="Logo" fill className="object-contain" priority />
+          </div>
+          <h1 className="text-center font-bold text-3xl text-black tracking-tight">Plan Your Mistover</h1>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-6 rounded-[2.5rem] bg-white p-6 shadow-xl shadow-slate-200/50 sm:p-10 border border-slate-100">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="mb-1.5 block text-[10px] font-black uppercase tracking-widest text-black ml-1">Full Name</label>
+              <input className={inputClasses("fullName")} placeholder="Your Name" value={fullName} onChange={(e) => setFullName(e.target.value)} onBlur={() => onBlur("fullName")} />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-[10px] font-black uppercase tracking-widest text-black ml-1">WhatsApp Number</label>
+              <input className={inputClasses("whatsAppNumber")} placeholder="10 Digit Number" value={whatsAppNumber} onChange={(e) => setWhatsAppNumber(e.target.value)} onBlur={() => onBlur("whatsAppNumber")} inputMode="tel" />
+            </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Duration */}
+          <div className="grid gap-4 grid-cols-2">
             <div>
-              <label className={labelBase}>Select Duration</label>
-              <select
-                className={inputBase}
-                value={duration}
-                onChange={(e) => setDuration(e.target.value as DurationOption)}
-                onBlur={() => onBlur("duration")}
-              >
+              <label className="mb-1.5 block text-[10px] font-black uppercase tracking-widest text-black ml-1">Check-in</label>
+              <input type="date" className={inputClasses("checkInDate")} value={checkInDate} onChange={(e) => setCheckInDate(e.target.value)} onBlur={() => onBlur("checkInDate")} />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-[10px] font-black uppercase tracking-widest text-black ml-1">Check-out</label>
+              <input type="date" className={inputClasses("checkOutDate")} value={checkOutDate} onChange={(e) => setCheckOutDate(e.target.value)} />
+            </div>
+          </div>
+
+          <div className="grid gap-4 grid-cols-2">
+            <div>
+              <label className="mb-1.5 block text-[10px] font-black uppercase tracking-widest text-black ml-1">Adults (6y+)</label>
+              <input className={inputClasses("adults")} placeholder="No. of Adults" value={adults} onChange={(e) => setAdults(e.target.value)} />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-[10px] font-black uppercase tracking-widest text-black ml-1">Children</label>
+              <input className={inputClasses("children")} placeholder="No. of Kids" value={children} onChange={(e) => setChildren(e.target.value)} />
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="mb-1.5 block text-[10px] font-black uppercase tracking-widest text-black ml-1">Travel Type</label>
+              <select className={inputClasses("travelType")} value={travelType} onChange={(e) => setTravelType(e.target.value as TravelTypeOption)}>
+                <option>Family</option>
+                <option>Couple</option>
+                <option>Bachelor</option>
+                <option>Solo</option>
+                <option>School/College trip</option>
+              </select>
+            </div>
+            <div>
+              <label className="mb-1.5 block text-[10px] font-black uppercase tracking-widest text-black ml-1">Duration</label>
+              <select className={inputClasses("duration")} value={duration} onChange={(e) => setDuration(e.target.value as DurationOption)}>
                 <option>1 Night / 2 Days</option>
                 <option>2 Nights / 3 Days</option>
                 <option>3 Nights / 4 Days</option>
                 <option>Custom</option>
               </select>
             </div>
+          </div>
 
-            {/* Name + WhatsApp */}
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label className={labelBase}>Full Name</label>
-                <input
-                  className={inputBase}
-                  placeholder="Enter your full name"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  onBlur={() => onBlur("fullName")}
-                />
-                {errorText("fullName")}
-              </div>
+          <div>
+            <label className="mb-1.5 block text-[10px] font-black uppercase tracking-widest text-black ml-1">Stay Preference</label>
+            <select className={inputClasses("propertyType")} value={propertyType} onChange={(e) => setPropertyType(e.target.value as PropertyTypeOption)}>
+              <option>Resort / Homestay</option>
+              <option>Villa / Hut</option>
+              <option>Mud House</option>
+              <option>Tent / Camping</option>
+            </select>
+          </div>
 
-              <div>
-                <label className={labelBase}>WhatsApp Number</label>
-                <input
-                  className={inputBase}
-                  placeholder="10-digit or +91XXXXXXXXXX"
-                  value={whatsAppNumber}
-                  onChange={(e) => setWhatsAppNumber(e.target.value)}
-                  onBlur={() => onBlur("whatsAppNumber")}
-                  inputMode="tel"
-                />
-                {errorText("whatsAppNumber")}
-              </div>
-            </div>
+          <div>
+            <label className="mb-1.5 block text-[10px] font-black uppercase tracking-widest text-black ml-1">Special Requirements</label>
+            <textarea className={`${inputClasses("specialRequirements")} min-h-[100px] resize-none`} placeholder="Food preferences, campfire, specific viewpoints..." value={specialRequirements} onChange={(e) => setSpecialRequirements(e.target.value)} />
+          </div>
 
-            {/* Check-in Date + Travel Type */}
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label className={labelBase}>Check-in Date</label>
-                <input
-                  type="date"
-                  className={inputBase}
-                  value={checkInDate}
-                  onChange={(e) => setCheckInDate(e.target.value)}
-                  onBlur={() => onBlur("checkInDate")}
-                />
-                {errorText("checkInDate")}
-              </div>
-
-              <div>
-                <label className={labelBase}>Travel Type</label>
-                <select
-                  className={inputBase}
-                  value={travelType}
-                  onChange={(e) =>
-                    setTravelType(e.target.value as TravelTypeOption)
-                  }
-                  onBlur={() => onBlur("travelType")}
-                >
-                  <option>Bachelor</option>
-                  <option>Family</option>
-                  <option>Couple</option>
-                  <option>Solo</option>
-                  <option>School trip</option>
-                  <option>College trip</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Adults + Children */}
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label className={labelBase}>Adults (6y+)</label>
-                <input
-                  className={inputBase}
-                  placeholder="e.g. 8 or 3-4"
-                  value={adults}
-                  onChange={(e) => setAdults(e.target.value)}
-                  onBlur={() => onBlur("adults")}
-                  inputMode="numeric"
-                />
-                <p className={helpBase}>
-                  Enter exact number (8) or range (3-4)
-                </p>
-                {errorText("adults")}
-              </div>
-
-              <div>
-                <label className={labelBase}>Children</label>
-                <input
-                  className={inputBase}
-                  placeholder="e.g. 2 or 1-2"
-                  value={children}
-                  onChange={(e) => setChildren(e.target.value)}
-                  onBlur={() => onBlur("children")}
-                  inputMode="numeric"
-                />
-                <p className={helpBase}>
-                  Enter exact number (2) or range (1-2)
-                </p>
-                {errorText("children")}
-              </div>
-            </div>
-
-            {touched.pax && errors.pax ? (
-              <p className="font-[Inter] text-xs text-red-600">{errors.pax}</p>
-            ) : null}
-
-            {/* Property Type */}
-            <div>
-              <label className={labelBase}>Property Type</label>
-              <select
-                className={inputBase}
-                value={propertyType}
-                onChange={(e) =>
-                  setPropertyType(e.target.value as PropertyTypeOption)
-                }
-                onBlur={() => onBlur("propertyType")}
-              >
-                <option>Mud House</option>
-                <option>Villa / Hut</option>
-                <option>Resort / Homestay</option>
-                <option>A Frame</option>
-                <option>Tent / Camping</option>
-              </select>
-              <p className={helpBase}>Any preference</p>
-            </div>
-
-            {/* Pool request */}
-            <div>
-              <label className={labelBase}>Request Pool?</label>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {(["Yes", "No", "Not required"] as const).map((opt) => (
-                  <label
-                    key={opt}
-                    className={`flex cursor-pointer items-center justify-between rounded-xl border px-4 py-3 font-[Inter] text-sm shadow-sm transition focus-within:ring-2 focus-within:ring-[#FF8A3D]/30 ${
-                      poolRequest === opt
-                        ? "border-[#0F3D2E] bg-[#0F3D2E]/5"
-                        : "border-[#E3EAE6] bg-white hover:bg-[#F3F7F5]"
-                    }`}
-                  >
-                    <span className="text-[#0B1220]">{opt}</span>
-                    <input
-                      type="radio"
-                      name="poolRequest"
-                      value={opt}
-                      checked={poolRequest === opt}
-                      onChange={() => setPoolRequest(opt)}
-                      className="h-4 w-4 accent-[#0F3D2E]"
-                    />
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Special requirements */}
-            <div>
-              <label className={labelBase}>Special Requirements</label>
-              <textarea
-                className={`${inputBase} min-h-[110px] resize-none`}
-                placeholder="Example: veg food, campfire, pickup location, early check-in, birthday setup..."
-                value={specialRequirements}
-                onChange={(e) => setSpecialRequirements(e.target.value)}
-                onBlur={() => onBlur("specialRequirements")}
-              />
-            </div>
-
-            {/* Submit */}
-            <div className="pt-2">
-              <button
-                type="submit"
-                className="inline-flex h-12 w-full items-center justify-center rounded-xl bg-[#0F3D2E] px-6 font-[Inter] text-sm font-semibold text-white shadow-sm transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[#FF8A3D]/60 disabled:cursor-not-allowed disabled:opacity-60"
-                disabled={hasErrors && Object.keys(touched).length > 0}
-              >
-                Send Enquiry on WhatsApp
-              </button>
-
-              <p className="mt-3 font-[Inter] text-xs text-[#5B6675]">
-                By submitting, your enquiry will open in WhatsApp with details
-                filled in.
-              </p>
-
-              {/* Debug helper (optional) */}
-              {/* <pre className="mt-3 text-xs">{buildMessage()}</pre> */}
-            </div>
-          </form>
-        </div>                                                                                                                                                                                                                                                                                                                                                                                                         
-        <p className="mt-4 text-center font-[Inter] text-xs text-[#5B6675]">
-          Tip: Use +91 format for WhatsApp number if possible.
-        </p>
+          <button type="submit" className="group flex w-full items-center justify-center gap-3 rounded-2xl bg-slate-900 py-4 text-sm font-bold text-white transition-all hover:bg-black active:scale-[0.98] shadow-xl shadow-slate-200">
+            <Send size={18} className="text-[#22C55E]" />
+            Send Enquiry via WhatsApp
+          </button>
+        </form>
       </div>
-    </section>
+    </main>
   );
 }

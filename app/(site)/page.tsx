@@ -12,10 +12,15 @@ export default function Home() {
   return (
     <main className="w-full overflow-x-hidden">
       <HeroSection />
-      <AboutSections />
-      <ReviewsAndContact />
+      {/* Added ID for Navbar Navigation */}
+      <section id="about">
+        <AboutSections />
+      </section>
+      {/* Added ID for Navbar Navigation */}
+      <section id="contact">
+        <ReviewsAndContact />
+      </section>
       <FAQSection />
-      {/* Additional sections can be added here */}
     </main>
   );
 }

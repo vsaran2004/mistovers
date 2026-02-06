@@ -1,43 +1,83 @@
-// types/package.ts (or inside package-data.ts)
-export interface TravelPackage {
-  id: string;
-  slug: string;
-  title: string;
-  duration: string;
-  price: string;
-  location: string;
-  groupSize: string;
-  image: string;
-  description: string;
-  highlights: string[];
-  inclusions: string[];
-}
-
 export const PACKAGES: TravelPackage[] = [
   {
     id: "1",
-    slug: "kanthalloor-highlights",
-    title: "Kanthalloor Highlights",
-    duration: "1 Day Trip",
-    price: "1,499",
+    slug: "standard-group-package",
+    title: "Standard Group Package",
+    duration: "1N/2D",
+    price: "1999",
     location: "Kanthalloor, Kerala",
-    groupSize: "2-15 People",
-    image: "/logo.jpeg",
-    description: "Perfect for those short on time. Experience the best of Kanthalloor's fruit orchards, waterfalls, and viewpoints in a single action-packed day.",
-    highlights: ["Fruit Orchard Tour", "Hidden Waterfall Visit", "Jeep Safari"],
-    inclusions: ["Guide", "Jeep Safari", "Entry Fees"]
+    groupSize: "7-15 People",
+    image: "/package/standart-package.png",
+    description: "The ultimate budget-friendly getaway for large groups and bachelors in the heart of Kanthalloor.",
+    highlights: [
+      "Jeep Trekking",
+      "Campfire Night",
+      "Homely Food",
+      "Sightseeing",
+      "Private Stay"
+    ],
+    inclusions: [
+      "4x4 off-road jeep ride through mountain trails and farms.",
+      "Private campfire setup with music under the stars.",
+      "Freshly cooked local meals using organic ingredients.",
+      "Visit waterfalls, viewpoints, and local farms.",
+      "Exclusive stay space ensuring privacy for your group.",
+      "Check-In: 12:00 PM | Check-Out: 11:00 AM",
+      "Important Note: Exclusive for bachelor groups who want privacy and adventure."
+    ]
   },
   {
     id: "2",
-    slug: "campfire-stay",
-    title: "Campfire & Jeep Stay",
-    duration: "1N / 2D",
-    price: "2,999",
-    location: "Kanthalloor Hills",
-    groupSize: "2-10 People",
-    image: "/logo.jpeg",
-    description: "Unwind under the stars. Enjoy a cozy stay in a mountain farmstay followed by a morning jeep safari to the misty peaks.",
-    highlights: ["Night Campfire", "Traditional Meals", "Sunrise Point Visit"],
-    inclusions: ["Stay", "Dinner & Breakfast", "Campfire"]
+    slug: "kanthalloor-adventure-explorer",
+    title: "Kanthalloor Adventure Explorer",
+    duration: "2N/3D",
+    price: "4999",
+    location: "Kanthalloor, Kerala",
+    groupSize: "4-10 People",
+    image: "/package/2days-package.png",
+    description: "An extended 3-day adventure exploring the deep forest trails and hidden waterfalls of Kanthalloor.",
+    highlights: [
+      "Deep Forest Jeep Safari",
+      "Night Trekking",
+      "Orange & Apple Orchard Visit",
+      "Riverside Camping",
+      "Traditional BBQ Night"
+    ],
+    inclusions: [
+      "2 Nights stay in premium tents or mountain cottages.",
+      "Extended 4x4 safari to deep forest watchtowers.",
+      "All meals (6 total) featuring local Kanthalloor cuisine.",
+      "Guided trekking to the secret 'Lemon Grass' hills.",
+      "Visit to organic fruit orchards and sandalwood forests.",
+      "Check-In: 12:00 PM | Check-Out: 11:00 AM",
+      "Note: Best suited for adventure enthusiasts and nature lovers."
+    ]
+  },
+  {
+    id: "3",
+    slug: "romantic-misty-escape",
+    title: "Romantic Misty Escape",
+    duration: "1N/2D",
+    price: "8500",
+    location: "Kanthalloor, Kerala",
+    groupSize: "2 People (Couples)",
+    image: "/package/couple-package.png",
+    description: "A cozy, private retreat designed specifically for couples looking for peace and mountain mist.",
+    highlights: [
+      "Private Cabin Stay",
+      "Candlelight Dinner",
+      "Fruit Orchard Walk",
+      "Private Sunrise View",
+      "Personalized Jeep Tour"
+    ],
+    inclusions: [
+      "Stay in a secluded wooden cabin with valley views.",
+      "Romantic candlelight dinner setup with music.",
+      "Traditional Kerala breakfast served in-room.",
+      "Private fruit orchard tour and strawberry farm visit.",
+      "Personal jeep for local sightseeing (Privacy guaranteed).",
+      "Check-In: 12:00 PM | Check-Out: 11:00 AM",
+      "Note: Perfect for honeymooners or quiet weekend getaways."
+    ]
   }
 ];
