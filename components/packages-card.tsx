@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, type Variants } from "framer-motion";
+import { motion, type Variants, type HTMLMotionProps } from "framer-motion";
 import { Clock, ArrowUpRight, Phone } from "lucide-react";
 import { PACKAGES, type TravelPackage } from "@/data/package-data";
 import { siteConfig } from "@/data/basic-data";
@@ -31,19 +31,18 @@ const cardVariants: Variants = {
   },
 };
 
-// ✅ FIXED buttonZoomProps (spring literal type)
-const buttonZoomProps = {
+// ✅ Fully typed + easing fixed (no "easeOut" string)
+const buttonZoomProps: HTMLMotionProps<"div"> = {
   initial: { scale: 1 },
   whileHover: {
     scale: 1.08,
-    transition: { duration: 0.3, ease: "easeOut" },
+    transition: {
+      duration: 0.3,
+      ease: [0.22, 1, 0.36, 1],
+    },
   },
   whileTap: { scale: 0.94 },
-  transition: {
-    type: "spring" as const,
-    stiffness: 400,
-    damping: 17,
-  },
+  transition: { type: "spring", stiffness: 400, damping: 17 },
 };
 
 /**
@@ -63,7 +62,6 @@ export function PackageCard({ pkg }: { pkg: TravelPackage }) {
           fill
           className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
         />
-
         <div className="absolute top-4 left-4 flex flex-wrap gap-2">
           <div className="px-4 py-2 rounded-2xl bg-white/90 backdrop-blur-md border border-white/20 shadow-sm flex items-center gap-2">
             <Clock size={14} className="text-sky-600" />
@@ -72,7 +70,6 @@ export function PackageCard({ pkg }: { pkg: TravelPackage }) {
             </span>
           </div>
         </div>
-
         <div className="absolute bottom-1 left-6 px-4 py-2 rounded-2xl bg-slate-900/90 backdrop-blur-lg border border-white/10 text-white">
           <span className="text-lg font-bold">₹{pkg.price}</span>
           <span className="text-[10px] opacity-70 ml-1 uppercase tracking-tighter">
@@ -107,7 +104,6 @@ export function PackageCard({ pkg }: { pkg: TravelPackage }) {
             <span className="relative z-10 font-bold text-sm tracking-wide">
               Explore Experience
             </span>
-
             <div className="relative z-10 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1">
               <ArrowUpRight size={20} />
             </div>
@@ -145,8 +141,8 @@ export function PackagesSection() {
             viewport={{ once: true }}
             className="text-slate-500 text-lg md:text-xl max-w-md leading-relaxed border-l-2 border-sky-200 pl-6"
           >
-            Discover Kanthalloor through routes that locals love. Hand-picked
-            stays and hidden spots.
+            Discover Kanthalloor through routes that locals love. Hand-picked stays
+            and hidden spots.
           </motion.p>
         </div>
 
@@ -174,8 +170,7 @@ export function PackagesSection() {
                 Need a custom plan?
               </h3>
               <p className="text-slate-400 text-lg">
-                Tell us your group size and dates, and we'll craft an itinerary
-                just for you.
+                Tell us your group size and dates, and we'll craft an itinerary just for you.
               </p>
             </div>
 
@@ -188,9 +183,7 @@ export function PackagesSection() {
                   <span className="block text-[9px] uppercase tracking-[0.2em] opacity-80 mb-1 leading-none">
                     Instant Support
                   </span>
-                  <span className="block text-l font-bold leading-none">
-                    Talk to an Expert
-                  </span>
+                  <span className="block text-l font-bold leading-none">Talk to an Expert</span>
                 </div>
 
                 <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center group-hover:scale-110 group-hover:rotate-[15deg] transition-transform duration-300">
