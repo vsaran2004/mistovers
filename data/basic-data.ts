@@ -10,7 +10,7 @@ export const siteConfig = {
 
   // Hero Section
   hero: {
-    video: "/videos/hero-video.mp4",
+    video: "/hero-video.mp4",
     image: "/images/hero-image.jpg",
     title: "Mistover Kanthalloor",
     subtitle: "Experience the Mist, Feel the Nature",
