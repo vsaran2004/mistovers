@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useMemo, useRef } from "react";
-import { happyCustomers, topSpots } from "@/data/gallery-data"; // adjust path if needed
+import { motion } from "framer-motion";
+import { happyCustomers, topSpots } from "@/data/gallery-data";
 
 type CarouselApi = {
   scrollByCards: (dir: "left" | "right") => void;
@@ -11,7 +12,6 @@ type CarouselApi = {
 
 function useCarousel(cardWidthPx = 320, gapPx = 16) {
   const ref = useRef<HTMLDivElement | null>(null);
-
   const api: CarouselApi = useMemo(
     () => ({
       scrollByCards: (dir) => {
@@ -23,7 +23,6 @@ function useCarousel(cardWidthPx = 320, gapPx = 16) {
     }),
     [cardWidthPx, gapPx]
   );
-
   return { ref, api };
 }
 
@@ -39,24 +38,23 @@ function SectionHeader({
   right?: React.ReactNode;
 }) {
   return (
-    <div className="mb-5 flex flex-col gap-3 md:mb-8 md:flex-row md:items-end md:justify-between">
+    <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
       <div className="max-w-2xl">
-        {eyebrow ? (
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#5B6675]">
+        {eyebrow && (
+          <span className="mb-1 block text-[10px] font-bold uppercase tracking-[0.3em] text-sky-500">
             {eyebrow}
-          </p>
-        ) : null}
-        <h2 className="font-[Poppins] text-2xl font-semibold leading-tight text-[#0B1220] sm:text-3xl">
+          </span>
+        )}
+        <h2 className="font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
           {title}
         </h2>
-        {subtitle ? (
-          <p className="mt-2 font-[Inter] text-sm leading-relaxed text-[#5B6675] sm:text-base">
+        {subtitle && (
+          <p className="mt-2 font-sans text-base leading-relaxed text-slate-500">
             {subtitle}
           </p>
-        ) : null}
+        )}
       </div>
-
-      {right ? <div className="mt-2 md:mt-0">{right}</div> : null}
+      {right && <div className=" md:mt-0">{right}</div>}
     </div>
   );
 }
@@ -72,222 +70,220 @@ function ArrowButton({
 }) {
   return (
     <button
-      type="button"
       onClick={onClick}
       aria-label={label}
-      className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#E3EAE6] bg-white/70 text-[#0B1220] shadow-sm backdrop-blur transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[#FF8A3D]/60"
+      className="group flex h-11 w-12 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:bg-slate-900 hover:text-white"
     >
-      <span className="text-xl leading-none">{dir === "left" ? "‹" : "›"}</span>
+      <span className="text-2xl transition-transform group-hover:scale-110">
+        {dir === "left" ? "←" : "→"}
+      </span>
     </button>
   );
 }
 
 export default function GalleryPage() {
   const waLink =
-    "https://wa.me/919999999999?text=" +
+    "https://wa.me/918547331180?text=" +
     encodeURIComponent(
-      "Hi Kanthalloor Mistovers, I want trip details and gallery package info."
+      "Hi Mistover Kanthalloor, I'm interested in your packages!"
     );
 
-  const customersCarousel = useCarousel(280, 14);
-  // For spot carousels, we’ll use native scroll only (each has 3 images)
+  const customersCarousel = useCarousel(400, 20);
 
   return (
-    <main className="min-h-screen bg-white">
-      {/* Top Intro */}
-      <section className="relative overflow-hidden border-b border-[#E3EAE6] bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 rounded-full border border-[#E3EAE6] bg-white px-4 py-2 text-sm font-medium text-[#0B1220] shadow-sm transition hover:bg-[#F3F7F5] focus:outline-none focus:ring-2 focus:ring-[#FF8A3D]/60"
-          >
-            <span>←</span>
-            <span className="font-[Inter]">Back to Home</span>
-          </Link>
+    <main className="min-h-screen bg-[#F8FAFC] font-sans selection:bg-sky-100">
+      {/* 1. MISTY HERO HEADER */}
+      <section className="relative overflow-hidden bg-slate-950 py-26 text-white">
+        <div className="absolute -top-24 -left-24 h-90 w-96 rounded-full bg-sky-500/10 blur-[120px]" />
+        <div className="absolute top-1/2 -right-24 h-64 w-64 rounded-full bg-blue-600/10 blur-[100px]" />
 
-          <div className="mt-6">
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#5B6675]">
-              GALLERY
-            </p>
-            <h1 className="mt-3 font-[Poppins] text-3xl font-semibold leading-tight text-[#0B1220] sm:text-4xl">
-              Moments from Kanthalloor
-            </h1>
-            <p className="mt-3 max-w-2xl font-[Inter] text-sm leading-relaxed text-[#5B6675] sm:text-base">
-              Happy travelers, misty viewpoints, and unforgettable hill
-              experiences — captured by our local team.
-            </p>
+        <div className="relative z-10 mx-auto max-w-7xl px-6">
+          <div className="max-w-3xl">
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-xs font-bold uppercase tracking-[0.4em] text-sky-400/80"
+            >
+              Gallery
+            </motion.span>
 
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/packages"
-                className="inline-flex h-12 items-center justify-center rounded-xl bg-[#0F3D2E] px-6 font-[Inter] text-sm font-semibold text-white shadow-sm transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[#FF8A3D]/60"
-              >
-                Explore Packages
-              </Link>
-              <Link
-                href={waLink}
-                className="inline-flex h-12 items-center justify-center rounded-xl border border-[#FF8A3D]/40 bg-[#FF8A3D]/10 px-6 font-[Inter] text-sm font-semibold text-[#0B1220] shadow-sm transition hover:bg-[#FF8A3D]/15 focus:outline-none focus:ring-2 focus:ring-[#FF8A3D]/60"
-              >
-                WhatsApp Enquiry
-              </Link>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-4 font-display text-5xl font-bold tracking-tight sm:text-6xl"
+            >
+              Mistover <br /> <span className="text-sky-400">Gallery</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="mt-6 text-lg leading-relaxed text-slate-400"
+            >
+              See Kanthalloor moments—from misty mornings to beautiful viewpoints
+              and local orchards.
+            </motion.p>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. HAPPY CUSTOMERS */}
+      <section className="relative -mt-14 px-2 pb-11">
+        <div className="mx-auto max-w-7xl">
+          <div className="rounded-[2.5rem] bg-white p-6 shadow-xl shadow-slate-200/50 sm:p-10 md:p-12">
+            <SectionHeader
+              eyebrow="Guest Stories"
+              title="Happy Travelers"
+              subtitle="Real smiles from people who travelled with us."
+              right={
+                <div className="hidden gap-2 md:flex">
+                  <ArrowButton
+                    dir="left"
+                    label="Previous"
+                    onClick={() => customersCarousel.api.scrollByCards("left")}
+                  />
+                  <ArrowButton
+                    dir="right"
+                    label="Next"
+                    onClick={() => customersCarousel.api.scrollByCards("right")}
+                  />
+                </div>
+              }
+            />
+
+            <div
+              ref={customersCarousel.ref}
+              className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-5 no-scrollbar"
+            >
+              {happyCustomers.map((img, idx) => (
+                <motion.div
+                  key={img.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="group relative min-w-[88%] snap-start overflow-hidden rounded-2xl sm:min-w-[45%] lg:min-w-[calc(33.33%-1rem)]"
+                >
+                  <div className="relative aspect-[3/4] overflow-hidden">
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      sizes="(max-width: 640px) 85vw, (max-width: 1024px) 45vw, 33vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60" />
+                    <div className="absolute bottom-6 left-6">
+                      <p className="font-display font-medium text-white">
+                        {img.label}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="mt-2 flex items-center justify-center gap-3 md:hidden">
+              <ArrowButton
+                dir="left"
+                label="Previous"
+                onClick={() => customersCarousel.api.scrollByCards("left")}
+              />
+              <ArrowButton
+                dir="right"
+                label="Next"
+                onClick={() => customersCarousel.api.scrollByCards("right")}
+              />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Happy Customers */}
-      <section className="bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-12 sm:py-14">
+      {/* 3. TOP SPOTS */}
+      <section className="bg-slate-150 px-4 py-8 sm:py-20 md:py-24">
+        <div className="mx-auto max-w-7xl">
           <SectionHeader
-            eyebrow="HAPPY CUSTOMERS"
-            title="Memories with Our Travelers"
-            subtitle="Real moments from couples, families, and groups exploring Kanthalloor."
-            right={
-              <div className="hidden items-center gap-2 md:flex">
-                <ArrowButton
-                  dir="left"
-                  label="Scroll happy customers left"
-                  onClick={() => customersCarousel.api.scrollByCards("left")}
-                />
-                <ArrowButton
-                  dir="right"
-                  label="Scroll happy customers right"
-                  onClick={() => customersCarousel.api.scrollByCards("right")}
-                />
-              </div>
-            }
+            eyebrow="Explore Kanthalloor"
+            title="Top Spots"
+            subtitle="Best places to see from kanthalloor and marayoor ."
           />
 
-          <div
-            ref={customersCarousel.ref}
-            className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-4"
-          >
-            {happyCustomers.map((img) => (
-              <div
-                key={img.id}
-                className="relative min-w-[78%] snap-start overflow-hidden rounded-2xl border border-[#E3EAE6] bg-[#F3F7F5] shadow-sm sm:min-w-[48%] lg:min-w-[24%]"
-              >
-                <div className="relative aspect-[4/5]">
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 78vw, (max-width: 1024px) 48vw, 24vw"
-                    priority={false}
-                  />
-                  <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/50 to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <p className="font-[Inter] text-sm font-semibold text-white">
-                      Kanthalloor Trip
-                    </p>
-                    <p className="font-[Inter] text-xs text-white/80">
-                      Kanthalloor Mistovers
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <p className="mt-3 font-[Inter] text-xs text-[#5B6675] md:hidden">
-            Swipe → to see more
-          </p>
-        </div>
-      </section>
-
-      {/* Top Spots */}
-      <section className="bg-[#F3F7F5]">
-        <div className="mx-auto max-w-6xl px-4 py-12 sm:py-14">
-          <SectionHeader
-            eyebrow="TOP SPOTS"
-            title="Top Spots to Visit in Kanthalloor"
-            subtitle="Swipe through highlights from each place — viewpoints, farms, and misty trails."
-            right={
-              <Link
-                href="/gallery"
-                className="hidden h-11 items-center justify-center rounded-xl bg-[#FF8A3D] px-5 font-[Inter] text-sm font-semibold text-white shadow-sm transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-white/50 md:inline-flex"
-              >
-                You are here
-              </Link>
-            }
-          />
-
-          <div className="space-y-6">
-            {topSpots.map((spot) => (
-              <div
+          <div className="grid gap-8 md:gap-11 lg:grid-cols-3">
+            {topSpots.map((spot, idx) => (
+              <motion.div
                 key={spot.id}
-                className="rounded-2xl border border-[#E3EAE6] bg-white p-4 shadow-sm sm:p-6"
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="group relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-4 shadow-xl transition-all hover:shadow-2xl hover:shadow-sky-100"
               >
-                <div className="flex flex-wrap items-center gap-3">
-                  <span className="inline-flex items-center rounded-full border border-[#E3EAE6] bg-[#F3F7F5] px-3 py-1 text-xs font-semibold text-[#0F3D2E]">
-                    {spot.label}
-                  </span>
-                  <h3 className="font-[Poppins] text-lg font-semibold text-[#0B1220] sm:text-xl">
+                <div className="mb-4 flex items-center justify-between px-2">
+                  <h3 className="font-display text-xl font-bold text-slate-900">
                     {spot.name}
                   </h3>
-                </div>
-                <p className="mt-2 font-[Inter] text-sm text-[#5B6675]">
-                  {spot.caption}
-                </p>
-
-                {/* 3-image carousel */}
-                <div className="relative mt-4">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-white to-transparent" />
-                  <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-white to-transparent" />
-
-                  <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    {spot.images.map((img) => (
-                      <div
-                        key={img.id}
-                        className="relative min-w-[86%] snap-start overflow-hidden rounded-xl border border-[#E3EAE6] bg-[#F3F7F5] shadow-sm sm:min-w-[45%] lg:min-w-[32%]"
-                      >
-                        <div className="relative aspect-[16/10]">
-                          <Image
-                            src={img.src}
-                            alt={img.alt}
-                            fill
-                            className="object-cover"
-                            sizes="(max-width: 640px) 86vw, (max-width: 1024px) 45vw, 32vw"
-                          />
-                        </div>
-                      </div>
-                    ))}
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-50 text-slate-400">
+                    ↗
                   </div>
-
-                  <p className="mt-2 font-[Inter] text-xs text-[#5B6675] lg:hidden">
-                    Swipe → to view {spot.name}
-                  </p>
                 </div>
-              </div>
+
+                <div className="flex gap-2 overflow-x-auto no-scrollbar snap-x pb-1">
+                  {spot.images.map((img) => (
+                    <div
+                      key={img.id}
+                      className="relative aspect-[16/12] min-w-[94%] snap-center overflow-hidden rounded-xl sm:min-w-[85%]"
+                    >
+                      <Image
+                        src={img.src}
+                        alt={img.alt}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 85vw, 33vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                <p className="mt-4 px-2 text-sm text-slate-500 italic">
+                  “{spot.caption}”
+                </p>
+              </motion.div>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* Bottom CTA */}
-          <div className="mt-10 rounded-2xl border border-[#E3EAE6] bg-white p-5 shadow-sm sm:p-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#5B6675]">
-                  READY TO PLAN?
-                </p>
-                <h3 className="mt-2 font-[Poppins] text-xl font-semibold text-[#0B1220]">
-                  Want a trip like this?
-                </h3>
-                <p className="mt-2 max-w-xl font-[Inter] text-sm text-[#5B6675]">
-                  Message us your date, number of people, and pickup location —
-                  we’ll suggest the best plan for Kanthalloor.
-                </p>
-              </div>
+      {/* 4. FINAL CTA */}
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="relative overflow-hidden rounded-[3rem] bg-slate-950 p-8 text-center sm:p-14 md:p-20"
+        >
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')] opacity-20" />
+          <div className="absolute top-0 left-1/2 h-64 w-full -translate-x-1/2 bg-sky-500/20 blur-[100px]" />
 
+          <div className="relative z-10">
+            <h2 className="font-display text-3xl font-bold text-white sm:text-4xl md:text-5xl">
+              Ready for your Kanthalloor trip?
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl text-slate-400">
+              Share your dates and group details. We will plan everything for
+              you.
+            </p>
+
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
-                href={waLink}
-                className="inline-flex h-12 items-center justify-center rounded-xl bg-[#0F3D2E] px-6 font-[Inter] text-sm font-semibold text-white shadow-sm transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[#FF8A3D]/60"
+                href="/packages"
+                className="w-full rounded-full border border-white/20 bg-white/10 px-10 py-4 font-bold text-white backdrop-blur-md transition-all hover:bg-white/20 sm:w-auto"
               >
-                WhatsApp Enquiry
+                Browse Packages
               </Link>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
     </main>
   );

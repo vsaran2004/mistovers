@@ -1,68 +1,93 @@
-// gallery-image-data.js
-// Temporary image source for all items (as requested)
-const IMG = "/logo.jpeg";
 
 export const happyCustomers = [
-  { id: "hc-1", src: IMG, alt: "Happy customers - Kanthalloor trip 1" },
-  { id: "hc-2", src: IMG, alt: "Happy customers - Kanthalloor trip 2" },
-  { id: "hc-3", src: IMG, alt: "Happy customers - Kanthalloor trip 3" },
-  { id: "hc-4", src: IMG, alt: "Happy customers - Kanthalloor trip 4" },
+  { id: "hc-1", label: "Family Trip", src: "/gallery/happy-family.png", alt: "Happy customers" },
+  { id: "hc-2", label: "Couple Trip", src: "/gallery/happy-couples.png", alt: "Happy customers" },
+   { id: "hc-3", label: "Group Trip", src: "/gallery/happy-group.png", alt: "Happy customers" },
 ];
-
 export const topSpots = [
   {
     id: "spot-1",
-    label: "Top Spot",
-    name: "Sunrise View Point",
-    caption: "Best sunrise & mist views",
+    name: "Brahmram View Point",
+    caption: "Scenic viewpoint with beautiful views",
     images: [
-      { id: "svp-1", src: IMG, alt: "Sunrise View Point image 1" },
-      { id: "svp-2", src: IMG, alt: "Sunrise View Point image 2" },
-      { id: "svp-3", src: IMG, alt: "Sunrise View Point image 3" },
+      { id: "vp-1", src: "/gallery/brahmram-kanthalloor-1.jpeg", alt: "Viewpoint" },
+      { id: "vp-2", src: "/gallery/brahmram-kanthalloor-2.jpeg", alt: "Viewpoint" },
+      { id: "vp-3", src: "/gallery/brahmram-kanthalloor-3.jpeg", alt: "Viewpoint" },
+      { id: "vp-4", src: "/gallery/brahmram-kanthalloor-4.jpg", alt: "Viewpoint" },
     ],
   },
   {
     id: "spot-2",
-    label: "Top Spot",
     name: "Pattissery Dam",
-    caption: "Calm water + scenic surroundings",
+    caption: "Calm water and peaceful surroundings",
     images: [
-      { id: "pd-1", src: IMG, alt: "Pattissery Dam image 1" },
-      { id: "pd-2", src: IMG, alt: "Pattissery Dam image 2" },
-      { id: "pd-3", src: IMG, alt: "Pattissery Dam image 3" },
+      { id: "pd-1", src: "/gallery/dam-kanthalloor-1.jpg", alt: "Dam" },
+      { id: "pd-2", src: "/gallery/dam-kanthalloor-2.jpeg", alt: "Dam" },
     ],
   },
   {
     id: "spot-3",
-    label: "Experience",
-    name: "Strawberry / Farm Visit",
-    caption: "Seasonal farm experience",
+    name: "Buzzing Zipline",
+    caption: "Thrilling zipline adventure",
     images: [
-      { id: "sf-1", src: IMG, alt: "Strawberry farm image 1" },
-      { id: "sf-2", src: IMG, alt: "Strawberry farm image 2" },
-      { id: "sf-3", src: IMG, alt: "Strawberry farm image 3" },
+      { id: "bz-1", src: "/gallery/zipline-kanthalloor-1.jpg", alt: "Zipline" },
+      { id: "bz-2", src: "/gallery/zipline-kanthalloor-2.png", alt: "Zipline" },
+      
     ],
   },
   {
     id: "spot-4",
-    label: "Viewpoint",
-    name: "Brahmram View Point",
-    caption: "Wide valley views",
+    name: "Honey Rock Park",
+    caption: "Beautiful park with rock formations",
     images: [
-      { id: "bvp-1", src: IMG, alt: "Brahmram View Point image 1" },
-      { id: "bvp-2", src: IMG, alt: "Brahmram View Point image 2" },
-      { id: "bvp-3", src: IMG, alt: "Brahmram View Point image 3" },
+      { id: "hrp-1", src: "/gallery/honey-rock-kanthalloor-1.jpeg", alt: "Park" },
+      { id: "hrp-2", src: "/gallery/honey-rock-kanthalloor-2.png", alt: "Park" },
+      { id: "hrp-3", src: "/gallery/honey-rock-kanthalloor-3.png", alt: "Park" },
     ],
   },
   {
     id: "spot-5",
-    label: "Nearby",
-    name: "Marayoor Sandalwood Forest",
-    caption: "Nature stop near Kanthalloor",
+    name: "Kacharam Waterfalls",
+    caption: "Beautiful waterfall surrounded by nature",
     images: [
-      { id: "msf-1", src: IMG, alt: "Marayoor Sandalwood Forest image 1" },
-      { id: "msf-2", src: IMG, alt: "Marayoor Sandalwood Forest image 2" },
-      { id: "msf-3", src: IMG, alt: "Marayoor Sandalwood Forest image 3" },
+      { id: "kw-1", src: "/gallery/kacharam-kanthalloor-1.png", alt: "Waterfall" },
+      { id: "kw-2", src: "/gallery/kacharam-kanthalloor-2.png", alt: "Waterfall" },
+    ],
+  },
+  {
+    id: "spot-6",
+    name: "Irachilpara Waterfalls",
+    caption: "Majestic waterfall with natural beauty",
+    images: [
+      { id: "iw-1", src: "/gallery/irachilpara-kanthalloor-1.jpg", alt: "Waterfall" },
+      { id: "iw-1", src: "/gallery/irachilpara-kanthalloor-2.webp", alt: "Waterfall" },
+    ],
+  },
+  {
+    id: "spot-7",
+    name: "Muruganmala",
+    caption: "Sacred hill with amazing panoramic views",
+    images: [
+      { id: "mm-1", src: "/gallery/muruganmala-kanthalloor-1.png", alt: "Hill" },
+      { id: "mm-2", src: "/gallery/muruganmala-kanthalloor-2.png", alt: "Hill" },
+    ],
+  },
+  {
+    id: "spot-8",
+    name: "Marayoor Sandal Forest",
+    caption: "Ancient sandal forest with unique plants",
+    images: [
+      { id: "msf-1", src: "/gallery/marayoor-sandal-1.jpeg", alt: "Forest" },
+      { id: "msf-2", src: "/gallery/marayoor-sandal-2.webp", alt: "Forest" },
+    ],
+  },
+  {
+    id: "spot-9",
+    name: "Marayoor Jaggery Unit",
+    caption: "Traditional jaggery making with local craft",
+    images: [
+      { id: "mju-1", src: "/gallery/marayoor-jaggery-1.webp", alt: "Jaggery" },
+      { id: "mju-2", src: "/gallery/marayoor-jaggery-2.jpeg", alt: "Jaggery" },
     ],
   },
 ];
