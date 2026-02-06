@@ -92,13 +92,13 @@ export function HeroSection() {
           {/* Stats Section */}
           <div className={`mt-10 flex items-center justify-center gap-8 transition-all duration-1000 delay-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
             <div className="text-center">
-              <p className="text-lg md:text-xl font-bold text-white">4.9/5</p>
+              <p className="text-lg md:text-xl font-bold text-white">4.2/5</p>
               <p className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-[#22C55E]">Rating</p>
             </div>
             <div className="h-5 w-px bg-white/10" />
             <div className="text-center">
-              <p className="text-lg md:text-xl font-bold text-white">15k+</p>
-              <p className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-[#22C55E]">Travelers</p>
+              <p className="text-lg md:text-xl font-bold text-white">15+</p>
+              <p className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-[#22C55E]">Properties</p>
             </div>
           </div>
         </div>
